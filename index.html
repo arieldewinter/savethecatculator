@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Save The Catculator</title>
+    <link rel="stylesheet" href="static/vendored/pico.jade.css" />
+  </head>
+  <body class="container">
+    <header>
+      <h1>Save The Catculator</h1>
+    </header>
+
+    <main>
+      <p>What's the total number of words or pages you're targeting?</p>
+      <input
+        type="number"
+        name="bookLength"
+        id="bookLength"
+        value="382"
+        aria-label="bookLength"
+        onkeyup="main(this)"
+      />
+      <table class="striped">
+        <thead>
+          <tr>
+            <th scope="col">Beat</th>
+            <th scope="col">Word / Page Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Opening Image</th>
+            <td id="openingImage"></td>
+          </tr>
+          <tr>
+            <th scope="row">Theme Stated</th>
+            <td id="themeStated"></td>
+          </tr>
+          <tr>
+            <th scope="row">Set-up</th>
+            <td id="setup"></td>
+          </tr>
+          <tr>
+            <th scope="row">Catalyst</th>
+            <td id="catalyst"></td>
+          </tr>
+          <tr>
+            <th scope="row">Debate</th>
+            <td id="debate"></td>
+          </tr>
+          <tr>
+            <th scope="row">Break into 2</th>
+            <td id="breakInto2"></td>
+          </tr>
+          <tr>
+            <th scope="row">B Story</th>
+            <td id="bStory"></td>
+          </tr>
+          <tr>
+            <th scope="row">Fun and Games</th>
+            <td id="funAndGames"></td>
+          </tr>
+          <tr>
+            <th scope="row">Midpoint</th>
+            <td id="midpoint"></td>
+          </tr>
+          <tr>
+            <th scope="row">Bad Guys Close In</th>
+            <td id="badGuysCloseIn"></td>
+          </tr>
+          <tr>
+            <th scope="row">All is Lost</th>
+            <td id="allIsLost"></td>
+          </tr>
+          <tr>
+            <th scope="row">Dark Night of the Soul</th>
+            <td id="darkNightOfTheSoul"></td>
+          </tr>
+          <tr>
+            <th scope="row">Break into 3</th>
+            <td id="breakInto3"></td>
+          </tr>
+          <tr>
+            <th scope="row">Finale</th>
+            <td id="finale"></td>
+          </tr>
+          <tr>
+            <th scope="row">Final Image</th>
+            <td id="finalImage"></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <footer style="text-align: center">
+      Made with ❤️ and 🌯
+      <a href="https://arieldewinter.com" target="_blank">Ariel DeWinter</a>
+      <div>
+        Based on the work of
+        <a
+          href="https://www.jessicabrody.com/2020/12/save-the-cat-novel-calculator/"
+          >Jessica Brody</a
+        >
+      </div>
+    </footer>
+
+    <script type="text/javascript">
+      function isNumeric(str) {
+        if (typeof str != "string") return false; // we only process strings!
+        return (
+          !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+          !isNaN(parseFloat(str))
+        ); // ...and ensure strings of whitespace fail
+      }
+      function main(el) {
+        el.setAttribute("aria-invalid", !isNumeric(el.value));
+        if (!isNumeric(el.value)) {
+          return;
+        }
+        calculateBeats(el.value);
+      }
+
+      function addCommas(nStr) {
+        nStr += "";
+        var x = nStr.split(".");
+        var x1 = x[0];
+        var x2 = x.length > 1 ? "." + x[1] : "";
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+          x1 = x1.replace(rgx, "$1" + "," + "$2");
+        }
+        return x1 + x2;
+      }
+
+      function calculateBeats(count) {
+        // started with math from Jessica Brody's site, cleaned up declarations
+        // and fixed math
+        const openingImage = "1 - " + addCommas(Math.ceil(count * 0.009));
+        document.getElementById("openingImage").innerHTML = openingImage;
+
+        const themeStated = addCommas(Math.ceil(count * 0.05));
+        document.getElementById("themeStated").innerHTML = themeStated;
+
+        const setupStart = addCommas(Math.ceil(count * 0.009));
+        const setupEnd = addCommas(Math.ceil(count * 0.1) - 1);
+        const setup = setupStart + " - " + setupEnd;
+        document.getElementById("setup").innerHTML = setup;
+
+        const catalyst = addCommas(Math.ceil(count * 0.1));
+        document.getElementById("catalyst").innerHTML = catalyst;
+
+        const debateStart = addCommas(Math.ceil(count * 0.1));
+        const debateEnd = addCommas(Math.ceil(count * 0.2) - 1);
+        const debate = debateStart + " - " + debateEnd;
+        document.getElementById("debate").innerHTML = debate;
+
+        const breakInto2 = addCommas(Math.ceil(count * 0.2));
+        document.getElementById("breakInto2").innerHTML = breakInto2;
+
+        const bStory = addCommas(Math.ceil(count * 0.22));
+        document.getElementById("bStory").innerHTML = bStory;
+
+        const funAndGamesStart = addCommas(Math.ceil(count * 0.2));
+        const funAndGamesEnd = addCommas(Math.ceil(count * 0.5) - 1);
+        const funAndGames = funAndGamesStart + " - " + funAndGamesEnd;
+        document.getElementById("funAndGames").innerHTML = funAndGames;
+
+        const midpoint = addCommas(Math.ceil(count * 0.5));
+        document.getElementById("midpoint").innerHTML = midpoint;
+
+        const badGuysCloseInStart = addCommas(Math.ceil(count * 0.5));
+        const badGuysCloseInEnd = addCommas(Math.ceil(count * 0.75) - 1);
+        const badGuysCloseIn = badGuysCloseInStart + " - " + badGuysCloseInEnd;
+        document.getElementById("badGuysCloseIn").innerHTML = badGuysCloseIn;
+
+        const allIsLost = addCommas(Math.ceil(count * 0.75));
+        document.getElementById("allIsLost").innerHTML = allIsLost;
+
+        const darkNightOfTheSoulStart = addCommas(Math.ceil(count * 0.75));
+        const darkNightOfTheSoulEnd = addCommas(Math.ceil(count * 0.8) - 1);
+        const darkNightOfTheSoul =
+          darkNightOfTheSoulStart + " - " + darkNightOfTheSoulEnd;
+        document.getElementById("darkNightOfTheSoul").innerHTML =
+          darkNightOfTheSoul;
+
+        const breakInto3 = addCommas(Math.ceil(count * 0.8));
+        document.getElementById("breakInto3").innerHTML = breakInto3;
+
+        const finaleStart = addCommas(Math.ceil(count * 0.8));
+        const finaleEnd = addCommas(Math.ceil(count * 1) - 1);
+        const finale = finaleStart + " - " + finaleEnd;
+        document.getElementById("finale").innerHTML = finale;
+
+        const finalImage = addCommas(count);
+        document.getElementById("finalImage").innerHTML = finalImage;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        main(document.getElementById("bookLength"));
+      });
+    </script>
+  </body>
+</html>
